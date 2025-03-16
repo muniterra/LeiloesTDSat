@@ -25,7 +25,7 @@ public class ProdutosDAO {
     ResultSet resultset;
     ArrayList<ProdutosDTO> listagem = new ArrayList<>();
     
-    public void cadastrarProduto (ProdutosDTO produto){
+    public int cadastrarProduto (ProdutosDTO produto){
         conn = new conectaDAO().connectDB();
         
         if (conn != null) {
@@ -38,12 +38,13 @@ public class ProdutosDAO {
                 int rowsAffected = pstmt.executeUpdate();
 
                 if (rowsAffected > 0) {
-                    System.out.println("Produto cadastrado com sucesso!");
+                    return 1;
                 } else {
-                    System.out.println("Falha ao cadastrar o produto.");
+                    return 0; 
                 }
             } catch (SQLException e) {
                 System.err.println("Erro ao cadastrar produto: " + e.getMessage());
+                return 0;
             } finally {
                 try {
                     if (conn != null) {
@@ -55,6 +56,7 @@ public class ProdutosDAO {
             }
         } else {
             System.err.println("Falha ao conectar ao banco de dados.");
+            return 0;
         }
 
     }

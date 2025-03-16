@@ -3,6 +3,7 @@ package com.leiloestdsat.view;
 
 import com.leiloestdsat.dto.ProdutosDTO;
 import com.leiloestdsat.dao.ProdutosDAO;
+import javax.swing.JOptionPane;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -155,7 +156,13 @@ public class cadastroVIEW extends javax.swing.JFrame {
         produto.setStatus(status);
         
         ProdutosDAO produtodao = new ProdutosDAO();
-        produtodao.cadastrarProduto(produto);
+        int resultado = produtodao.cadastrarProduto(produto);
+        
+        if (resultado == 1) {
+            JOptionPane.showMessageDialog(null, "Produto cadastrado");
+        } else {
+            JOptionPane.showMessageDialog(null, "Falha no cadastro. Procure o suporte.");
+        }
         
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
