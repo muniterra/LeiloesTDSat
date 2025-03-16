@@ -1,4 +1,8 @@
+package com.leiloestdsat.view;
 
+
+import com.leiloestdsat.dto.ProdutosDTO;
+import com.leiloestdsat.dao.ProdutosDAO;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
