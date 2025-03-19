@@ -99,7 +99,7 @@ public class ProdutosDAO {
         conn = new conectaDAO().connectDB();
         if (conn != null) {
             try {
-                String sql = "UPDATE produtos SET status = 'vendido' WHERE id = ?";
+                String sql = "UPDATE produtos SET status = 'Vendido' WHERE id = ?";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, id);
 
@@ -124,6 +124,40 @@ public class ProdutosDAO {
         } else {
             System.err.println("Falha ao conectar ao banco de dados.");
         }
+    }
+    
+    public ArrayList<ProdutosDTO> listarProdutosVendidos(){
+        ArrayList<ProdutosDTO> listagem = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = new conectaDAO().connectDB();
+            String sql = "SELECT * FROM produtos WHERE status = 'Vendido'";
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                ProdutosDTO produto = new ProdutosDTO();
+                produto.setId(rs.getInt("id"));
+                produto.setNome(rs.getString("nome"));
+                produto.setValor(rs.getInt("valor"));
+                produto.setStatus(rs.getString("status"));
+                listagem.add(produto);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar produtos: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.err.println("Erro ao fechar recursos: " + e.getMessage());
+            }
+        }
+        return listagem;
     }
 }
 
